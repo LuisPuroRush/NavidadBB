@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ella uwu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            font-family: 'Pacifico', cursive;
+            overflow: hidden;
+            transition: background 2s ease;
+        }
+
+        .heart {
+            position: absolute;
+            left: 10%;
+            top: 35%;
+            transform: translateY(-50%) rotate(-45deg);
+            width: 300px;
+            height: 300px;
+            background-color: #ff6b6b;
+            animation: pulse 1.5s infinite;
+            box-shadow: 0 0 30px #ff6b6b;
+            z-index: 1;
+            transition: opacity 2s ease;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background-color: #ff6b6b;
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -150px;
+            left: 0;
+        }
+
+        .heart:after {
+            left: 150px;
+            top: 0;
+        }
+
+        .text {
+            position: absolute;
+            top: 35%;
+            left: 12%;
+            transform: translateY(-50%) rotate(45deg);
+            color: white;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 48px;
+            z-index: 2;
+        }
+
+        .initial-message {
+            position: absolute;
+            top: 35%;
+            left: 35%;
+            color: black;
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.7);
+            z-index: 2;
+            transition: opacity 2s ease;
+        }
+
+        .media-container {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .media-container img,
+        .media-container video {
+            width: 400px;
+            height: 400px;
+        }
+
+        .media-container p {
+            margin-top: 15px;
+            font-size: 24px;
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1) rotate(-45deg);
+                box-shadow: 0 0 30px #ff6b6b;
+            }
+            50% {
+                transform: scale(1.2) rotate(-45deg);
+                box-shadow: 0 0 60px #ff3b3b;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart" id="heart">
+        <div class="text">
+            <span>A</span>
+            <span>+</span>
+            <span>L</span>
+        </div>
+    </div>
+    <div class="initial-message" id="initialMessage">
+        Para ti la más bonita de toda Colombia :3 y mi Andreita bb Feliz Navidad
+    </div>
+
+    <div class="media-container" id="image1">
+        <img src="Imagen1.png" alt="Imagen 1">
+        <p>"Eres mi razón de sonreír siempre"</p>
+    </div>
+    <div class="media-container" id="image2">
+        <img src="Imagen2.png" alt="Imagen 2">
+        <p>"Tú iluminas mi vida como nadie más"</p>
+    </div>
+    <div class="media-container" id="image3">
+        <img src="Imagen3.png" alt="Imagen 3">
+        <p>"Eres el amor de mi vida"</p>
+    </div>
+    <div class="media-container" id="video">
+        <video id="videoElement" src="Ella.mp4" autoplay muted></video>
+        <p>"Nuestro momento especial juntos"</p>
+    </div>
+    <div class="media-container" id="image4">
+        <img src="Imagen4.png" alt="Imagen 4">
+        <p>"Siempre estaré contigo"</p>
+    </div>
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    <script>
+        const sound = new Howl({
+            src: ['Music.mp3'],
+            autoplay: true,
+            loop: false,
+            volume: 0.7
+        });
+
+        const body = document.body;
+        const heart = document.getElementById('heart');
+        const initialMessage = document.getElementById('initialMessage');
+        const videoElement = document.getElementById('videoElement');
+        videoElement.playbackRate = 1.5;
+
+        const elements = [
+            { id: 'image1', duration: 6000 },
+            { id: 'image2', duration: 6000 },
+            { id: 'image3', duration: 6000 },
+            { id: 'video', duration: null },
+            { id: 'image4', duration: 6000 }
+        ];
+
+        sound.on('play', () => {
+            setTimeout(() => {
+                body.style.background = 'black';
+                heart.style.opacity = '0';
+                initialMessage.style.opacity = '0';
+                setTimeout(() => {
+                    heart.style.display = 'none';
+                    initialMessage.style.display = 'none';
+                    let delay = 0;
+
+                    elements.forEach((element) => {
+                        setTimeout(() => {
+                            const el = document.getElementById(element.id);
+                            el.style.display = 'block';
+                            el.style.animation = `fadeIn 2s ease`;
+
+                            const elementDuration = element.id === 'video' ? videoElement.duration * 1000 : element.duration;
+
+                            setTimeout(() => {
+                                el.style.animation = `fadeOut 2s ease`;
+                                setTimeout(() => {
+                                    el.style.display = 'none';
+                                }, 2000);
+                            }, elementDuration);
+                        }, delay);
+
+                        delay += (element.id === 'video' ? videoElement.duration * 1000 : element.duration) + 2000;
+                    });
+                }, 2000);
+            }, 14000);
+        });
+
+        sound.play();
+    </script>
+</body>
+</html>

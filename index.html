@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Navidad</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            position: relative;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .clock {
+            font-size: 96px;
+            font-weight: bold;
+            text-shadow: 3px 3px 8px rgba(255, 255, 255, 0.7);
+            animation: pulse 1s infinite;
+        }
+
+        .date {
+            font-size: 48px;
+            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .button {
+            padding: 20px 50px;
+            font-size: 36px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(45deg, #ff6b6b, #ff9a9e);
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 0 20px #ff6b6b;
+            animation: glow 1.5s infinite alternate;
+            transition: transform 0.2s ease;
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+        }
+
+        .message {
+            font-size: 24px;
+            color: #ff6b6b;
+            margin-top: 20px;
+            animation: fadeOut 2s forwards;
+        }
+
+        .lock {
+            font-size: 64px;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.8);
+            animation: bounce 1.5s infinite alternate;
+        }
+
+        .image {
+            display: none;
+            max-width: 200px;
+            max-height: 200px;
+            margin-top: 20px;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 20px #ff6b6b;
+            }
+            to {
+                box-shadow: 0 0 40px #ff3b3b;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="clock" id="clock"></div>
+        <div class="date" id="date"></div>
+        <div class="lock" id="lock">🔒</div>
+        <button class="button" id="playButton">Feliz Navidad</button>
+        <div id="message" class="message" style="display: none;">Aún no es tiempo</div>
+        <img src="Yo.png" alt="Imagen" class="image" id="image">
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('date').textContent = now.toLocaleDateString('es-ES', options);
+        }
+
+        const playButton = document.getElementById('playButton');
+        const lock = document.getElementById('lock');
+        const message = document.getElementById('message');
+        const image = document.getElementById('image');
+        const redirectAudio = new Audio('Yo.mp3');
+
+        playButton.addEventListener('click', () => {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+
+            // Permite desbloquear a partir de las 11:59 PM
+            if (hours === 23 && minutes >= 59) {
+                lock.style.display = 'none'; // Oculta el candado
+                image.style.display = 'block'; // Muestra la imagen
+                redirectAudio.play(); // Reproduce el audio
+                redirectAudio.onended = () => {
+                    image.style.display = 'none'; // Oculta la imagen después del audio
+                    window.location.href = 'FelizNavidad.html';
+                };
+            } else {
+                message.style.display = 'block'; // Muestra el mensaje
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 3000);
+            }
+        });
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Deshabilitar herramientas de desarrollo
+        document.addEventListener('contextmenu', (e) => e.preventDefault()); // Bloquea clic derecho
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
