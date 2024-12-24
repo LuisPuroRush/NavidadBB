@@ -133,6 +133,18 @@
                 box-shadow: 0 0 60px #ff3b3b;
             }
         }
+
+        .final-message {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 64px;
+            color: white;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+            animation: fadeIn 2s ease forwards;
+        }
     </style>
 </head>
 <body>
@@ -167,7 +179,10 @@
         <img src="Imagen4.png" alt="Imagen 4">
         <p>"La Chica mas bonita y perfecta que hace feliz❤️"</p>
     </div>
-    
+
+    <div class="final-message" id="finalMessage">
+        I LOVE YOU ANDREA <3 FELIZ NAVIDAD BB
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     <script>
@@ -181,6 +196,7 @@
         const body = document.body;
         const heart = document.getElementById('heart');
         const initialMessage = document.getElementById('initialMessage');
+        const finalMessage = document.getElementById('finalMessage');
         const videoElement = document.getElementById('videoElement');
         videoElement.playbackRate = 1.5;
 
@@ -220,6 +236,11 @@
 
                         delay += (element.id === 'video' ? videoElement.duration * 1000 : element.duration) + 2000;
                     });
+
+                    setTimeout(() => {
+                        finalMessage.style.display = 'block';
+                        finalMessage.style.animation = `fadeIn 2s ease`;
+                    }, delay);
                 }, 2000);
             }, 14000);
         });
